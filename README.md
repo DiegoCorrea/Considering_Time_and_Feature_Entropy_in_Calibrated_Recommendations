@@ -30,7 +30,7 @@ Be cautious with the parameters, if you badly define the configuration a high nu
  
 ## The code
 1. Download the framework: `git clone git@github.com:project-pierre/pierre-in-frame.git`  
-2. Go to the framework path: `cd pierre-in-frame/`
+2. Go to the framework path: `cd pierre-in-frame/`  
 3. The framework structure: `ls .`  
 3.1. `pierre_in_frame/`: Where all python code is. It is the kernel of the framework code.  
 3.2. `data/`: Where all data are saved as raw and clean datasets, candidate items, recommendation lists, execution time, etc.  
@@ -47,7 +47,7 @@ Be cautious with the parameters, if you badly define the configuration a high nu
 3. Install the framework environment: `conda env create -f environment.yml`  
 4. Activate the environment: `conda activate pierre-in-frame`  
    4.1. It is also possible to install it through pip requirements  
-5. Download, compile, and install the `Project Pierre` libraries
+5. Download, compile, and install the `Project Pierre` libraries  
    5.1. Download the Scikit-Pierre, compile, and install it: `https://github.com/project-pierre/scikit_pierre`  
    5.2. Download the Recommender-Pierre, compile, and install it: `https://github.com/project-pierre/recommender-pierre`
 
