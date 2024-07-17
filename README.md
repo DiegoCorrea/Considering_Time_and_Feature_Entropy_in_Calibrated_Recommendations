@@ -90,14 +90,14 @@ The best set of parameter values is saved inside the path `data/experiment/hyper
 
 #### Run Examples
 1. Movielens 20M   
-   1.1. CVTT + BPR + ALS: `python3 step2_random_search.py from_file=YES file_name=ml-20m`    
-   1.2. CVTT + DeepAE: `python3 step2_random_search.py from_file=YES file_name=deep_ae_ml-20m`    
+   1.1. CVTT + BPR + ALS: `python3 step2_searches.py from_file=YES file_name=ml-20m`    
+   1.2. CVTT + DeepAE: `python3 step2_searches.py from_file=YES file_name=deep_ae_ml-20m`    
 2. Food.com Recipes    
-   1.1. CVTT + BPR + ALS: `python3 step2_random_search.py from_file=YES file_name=food`    
-   1.2. CVTT + DeepAE: `python3 step2_random_search.py from_file=YES file_name=deep_ae_food`     
+   1.1. CVTT + BPR + ALS: `python3 step2_searches.py from_file=YES file_name=food`    
+   1.2. CVTT + DeepAE: `python3 step2_searches.py from_file=YES file_name=deep_ae_food`     
 3. Last.fm    
-   1.1. CVTT + BPR + ALS: `python3 step2_random_search.py from_file=YES file_name=lfm-2b-subset`    
-   1.2. CVTT + DeepAE: `python3 step2_random_search.py from_file=YES file_name=deep_ae_lfm-2b-subset`    
+   1.1. CVTT + BPR + ALS: `python3 step2_searches.py from_file=YES file_name=lfm-2b-subset`    
+   1.2. CVTT + DeepAE: `python3 step2_searches.py from_file=YES file_name=deep_ae_lfm-2b-subset`    
 
 In the directory `shell`, there are examples of scripts to run step 2 for the three datasets cited above.
 You can run the command from the main project directory: `sh shell/step2.sh > ./logs/step2.log 2>&1 & disown`.
