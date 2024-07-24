@@ -1,6 +1,6 @@
 # Pierre-in-Frame  
 
-## It is a frozen code for the paper "Considering Time and Feature Entropy in Calibrated Recommendations" authored by Diego Corrêa da Silva, Dietmar Jannach and Frederico Araújo Durão.   
+## This is the code for the paper "Considering Time and Feature Entropy in Calibrated Recommendations" authored by Diego Corrêa da Silva, Dietmar Jannach and Frederico Araújo Durão.   
 
 ## You can download the dataset and results to reproduce the experiment and compare at: https://doi.org/10.5281/zenodo.12801920
 
