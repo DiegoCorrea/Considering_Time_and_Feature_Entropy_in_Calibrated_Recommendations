@@ -128,12 +128,12 @@ class Yelp(Dataset):
         #     Label.ITEM_ID: 'int32'
         # })
         self.transactions.to_csv(
-            os.path.join(self.clean_dataset_dir, PathDirFile.TRANSACTIONS_FILE),
+            os.path.join(self.dataset_clean_path, PathDirFile.TRANSACTIONS_FILE),
             index=False,
             mode='w+'
         )
         self.items.to_csv(
-            os.path.join(self.clean_dataset_dir, PathDirFile.ITEMS_FILE),
+            os.path.join(self.dataset_clean_path, PathDirFile.ITEMS_FILE),
             index=False,
             mode='w+'
         )
@@ -186,7 +186,7 @@ class Yelp(Dataset):
 
         # Save the clean transactions as CSV.
         self.items.to_csv(
-            os.path.join(self.clean_dataset_dir, PathDirFile.ITEMS_FILE),
+            os.path.join(self.dataset_clean_path, PathDirFile.ITEMS_FILE),
             index=False,
             mode='w+'
         )

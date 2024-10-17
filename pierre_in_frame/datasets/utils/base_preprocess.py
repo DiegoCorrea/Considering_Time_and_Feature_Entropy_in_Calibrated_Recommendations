@@ -106,8 +106,7 @@ class Dataset:
         :return: A pandas Dataframe with the dataset raw transactions.
         """
         # If it is the first requisition, load from the file
-        if self.raw_transactions is None:
-            self.load_raw_transactions()
+        self.load_raw_transactions()
         return self.raw_transactions
 
     # # CLEAN
@@ -137,8 +136,7 @@ class Dataset:
         :return: A pandas Dataframe with the dataset clean transactions.
         """
         # If it is the first requisition, load from the file
-        if self.transactions is None:
-            self.load_clean_transactions()
+        self.load_clean_transactions()
         return self.transactions
 
     def set_transactions(self, new_transactions: pd.DataFrame):
@@ -159,16 +157,13 @@ class Dataset:
         :return: A pandas Dataframe with the train transactions.
         """
         # If it is the first requisition, load from the file
-        if self.full_train_transaction is None:
-            if self.train_transaction is None:
-                self.load_train_transactions(trial=trial, fold=fold)
+        self.load_train_transactions(trial=trial, fold=fold)
 
-            if self.validation_transaction is None:
-                self.load_validation_transactions(trial=trial, fold=fold)
+        self.load_validation_transactions(trial=trial, fold=fold)
 
-            self.full_train_transaction = pd.concat(
-                [self.train_transaction, self.validation_transaction]
-            )
+        self.full_train_transaction = pd.concat(
+            [self.train_transaction, self.validation_transaction]
+        )
         return self.full_train_transaction
 
     def load_train_transactions(self, trial: int, fold: int):
@@ -189,8 +184,7 @@ class Dataset:
         :return: A pandas Dataframe with the train transactions.
         """
         # If it is the first requisition, load from the file
-        if self.train_transaction is None:
-            self.load_train_transactions(trial=trial, fold=fold)
+        self.load_train_transactions(trial=trial, fold=fold)
         return self.train_transaction
 
     def load_validation_transactions(self, trial: int, fold: int):
@@ -211,8 +205,7 @@ class Dataset:
         :return: A pandas Dataframe with the train transactions.
         """
         # If it is the first requisition, load from the file
-        if self.validation_transaction is None:
-            self.load_validation_transactions(trial=trial, fold=fold)
+        self.load_validation_transactions(trial=trial, fold=fold)
         return self.validation_transaction
 
     def load_test_transactions(self, trial: int, fold: int):
@@ -233,8 +226,7 @@ class Dataset:
         :return: A pandas Dataframe with the test transactions.
         """
         # If it is the first requisition, load from the file
-        if self.test_transaction is None:
-            self.load_test_transactions(trial, fold)
+        self.load_test_transactions(trial, fold)
         return self.test_transaction
 
     # ######################################### #
@@ -255,8 +247,7 @@ class Dataset:
         :return: A pandas Dataframe with the dataset raw items.
         """
         # If it is the first requisition, load from the file
-        if self.raw_items is None:
-            self.load_raw_items()
+        self.load_raw_items()
         return self.raw_items
 
     # CLEAN
@@ -292,8 +283,7 @@ class Dataset:
         :return: A pandas Dataframe with the dataset clean items.
         """
         # If is the first requisition, load from the file
-        if self.items is None:
-            self.load_clean_items()
+        self.load_clean_items()
         return self.items
 
     def set_items(self, new_items: pd.DataFrame):

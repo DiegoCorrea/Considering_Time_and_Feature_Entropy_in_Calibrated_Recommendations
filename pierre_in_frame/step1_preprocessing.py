@@ -12,6 +12,7 @@ from scikit_pierre.models.item import ItemsInMemory
 from settings.labels import Label
 from settings.path_dir_file import PathDirFile
 from settings.save_and_load import SaveAndLoad
+from utils.clocker import Clocker
 from utils.input import Input
 from utils.logging_settings import setup_logging
 from utils.step import Step
@@ -178,6 +179,9 @@ class PierreStep1(Step):
         """
         This method is to compute the preference distribution.
         """
+        clocker = Clocker()
+        clocker.start_count()
+
         # Load the dataset
         dataset_instance = RegisteredDataset.load_dataset(dataset)
 
@@ -194,6 +198,11 @@ class PierreStep1(Step):
         # Save the distributions
         SaveAndLoad.save_user_preference_distribution(
             data=data, dataset=dataset, fold=fold, trial=trial, distribution=distribution
+        )
+
+        clocker.finish_count()
+        SaveAndLoad.save_distribution_time(
+            data=clocker.clock_data(), dataset=dataset, fold=fold, trial=trial, distribution=distribution
         )
 
         # logger.info(" ... ".join([

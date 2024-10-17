@@ -77,7 +77,6 @@ class RegisteredDataset:
 
     @staticmethod
     def preprocessing(
-            experiment_name: str,
             dataset: str, n_trials: int, n_folds: int,
             cut_value: int, item_cut_value: int, profile_len_cut_value: int,
             based_on: str, test_len_cut_value: int
@@ -121,10 +120,10 @@ class RegisteredDataset:
             raise "The requested dataset is not registered in the system"
 
         instance.set_experiment_variables(
-            experiment_name=experiment_name,
             cut_value=cut_value, item_cut_value=item_cut_value,
             profile_len_cut_value=profile_len_cut_value,
-            test_len_cut_value=test_len_cut_value,
+            test_len_cut_value=test_len_cut_value
+        )
+        instance.choosing_preprocessing(
             n_trials=n_trials, n_folds=n_folds, based_on=based_on
         )
-        instance.choosing_preprocessing()

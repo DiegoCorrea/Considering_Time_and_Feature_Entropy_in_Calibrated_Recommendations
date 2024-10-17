@@ -75,6 +75,21 @@ class SaveAndLoad:
         )
         return read_csv(preference_distribution_path, index_col=0).fillna(0)
 
+    @staticmethod
+    def save_distribution_time(
+            data: DataFrame, dataset: str,  trial: int, fold: int, distribution: str,
+            ext: str = 'csv'
+    ):
+        """
+        This method is to save the distribution file.
+        """
+        data.to_csv(
+            PathDirFile.preference_distribution_file(
+                dataset=dataset, fold=fold, trial=trial,
+                filename=distribution + "_" + "TIME"  + '.' + ext
+            )
+        )
+
     # ########################################################################################### #
 
     @staticmethod
