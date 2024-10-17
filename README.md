@@ -60,14 +60,17 @@ The pre-processing script provides three functionality to configure the experime
    1.1. MovieLens 20M: `python3 step1_preprocessing.py from_file=YES file_name=ml-20m`  
    1.2. Food.com: `python3 step1_preprocessing.py from_file=YES file_name=food`  
    1.3. Last.fm 2B: `python3 step1_preprocessing.py from_file=YES file_name=lfm-2b-subset`  
+   1.3. Yelp: `python3 step1_preprocessing.py from_file=YES file_name=yelp`  
 2. Pre-Compute Distribution. This improves the execution time. **We strongly indicate running this optimization**  
    2.1. MovieLens 20M: `python3 step1_preprocessing.py from_file=YES file_name=ml-20m_distribution`  
    2.2. Food.com: `python3 step1_preprocessing.py from_file=YES file_name=food_distribution`  
-   2.3. Last.fm 2B: `python3 step1_preprocessing.py from_file=YES file_name=lfm-2b-subset_distribution`  
+   2.3. Last.fm 2B: `python3 step1_preprocessing.py from_file=YES file_name=lfm-2b-subset_distribution` 
+   2.4. Yelp: `python3 step1_preprocessing.py from_file=YES file_name=yelp_distribution`  
 3. Pre-Compute One-Hot-Encoding. This improves the execution time. **We strongly indicate running this optimization**  
    3.1. MovieLens 20M: `python3 step1_preprocessing.py from_file=YES file_name=ml-20m_ohe`  
    3.2. Food.com: `python3 step1_preprocessing.py from_file=YES file_name=food_ohe`  
    3.3. Last.fm 2B: `python3 step1_preprocessing.py from_file=YES file_name=lfm-2b-subset_ohe`  
+   3.4. Yelp: `python3 step1_preprocessing.py from_file=YES file_name=yelp_ohe`  
 
 You can find the environment files from step 1 in the `environment/step1/` directory.  
 
@@ -89,7 +92,10 @@ The best set of parameter values is saved inside the path `data/experiment/hyper
    1.2. CVTT + DeepAE: `python3 step2_searches.py from_file=YES file_name=deep_ae_food`     
 3. Last.fm    
    1.1. CVTT + BPR + ALS: `python3 step2_searches.py from_file=YES file_name=lfm-2b-subset`    
-   1.2. CVTT + DeepAE: `python3 step2_searches.py from_file=YES file_name=deep_ae_lfm-2b-subset`    
+   1.2. CVTT + DeepAE: `python3 step2_searches.py from_file=YES file_name=deep_ae_lfm-2b-subset` 
+4. Yelp    
+   1.1. CVTT + BPR + ALS: `python3 step2_searches.py from_file=YES file_name=yelp`    
+   1.2. CVTT + DeepAE: `python3 step2_searches.py from_file=YES file_name=deep_ae_yelp`    
 
 In the directory `shell`, there are examples of scripts to run step 2 for the three datasets cited above.
 You can run the command from the main project directory: `sh shell/step2.sh > ./logs/step2.log 2>&1 & disown`.

@@ -7,6 +7,7 @@ from datasets.taste_profile import TasteProfile
 from datasets.twitter_movies import TwitterMovies
 from datasets.utils.base_preprocess import Dataset
 from datasets.yahoo_movies import YahooMovies
+from datasets.yelp import Yelp
 from settings.labels import Label
 
 
@@ -23,10 +24,12 @@ class RegisteredDataset:
     MY_ANIME_LIST_DATASET = MyAnimeList.system_name
     TWITTER_MOVIES_DATASET = TwitterMovies.system_name
     LASTFM_TWO_BILLION_DATASET = LastFMTwoBillion.system_name
+    YELP_DATASET = Yelp.system_name
 
     # Allowed to be accessed
     DATASET_LIST = [
         MOVIELENS_ONE_MILLION_DATASET, YAHOO_MOVIES_DATASET, TWITTER_MOVIES_DATASET,
+        YELP_DATASET,
         LASTFM_TWO_BILLION_DATASET, MOVIELENS_TWENTY_MILLION_DATASET, FOOD_COM_RECIPE_DATASET
         # TASTE_PROFILE_DATASET,
         # MY_ANIME_LIST_DATASET
@@ -66,11 +69,15 @@ class RegisteredDataset:
         # Last FM Two Billion
         elif dataset == RegisteredDataset.LASTFM_TWO_BILLION_DATASET:
             return LastFMTwoBillion()
+        # Yelp
+        elif dataset == RegisteredDataset.YELP_DATASET:
+            return Yelp()
         else:
             raise "The requested dataset is not registered in the system"
 
     @staticmethod
     def preprocessing(
+            experiment_name: str,
             dataset: str, n_trials: int, n_folds: int,
             cut_value: int, item_cut_value: int, profile_len_cut_value: int,
             based_on: str, test_len_cut_value: int
@@ -107,14 +114,17 @@ class RegisteredDataset:
         # Last FM Two Billion
         elif dataset == RegisteredDataset.LASTFM_TWO_BILLION_DATASET:
             instance = LastFMTwoBillion()
+        # Yelp
+        elif dataset == RegisteredDataset.YELP_DATASET:
+            instance = Yelp()
         else:
             raise "The requested dataset is not registered in the system"
 
         instance.set_experiment_variables(
+            experiment_name=experiment_name,
             cut_value=cut_value, item_cut_value=item_cut_value,
             profile_len_cut_value=profile_len_cut_value,
-            test_len_cut_value=test_len_cut_value
-        )
-        instance.choosing_preprocessing(
+            test_len_cut_value=test_len_cut_value,
             n_trials=n_trials, n_folds=n_folds, based_on=based_on
         )
+        instance.choosing_preprocessing()
