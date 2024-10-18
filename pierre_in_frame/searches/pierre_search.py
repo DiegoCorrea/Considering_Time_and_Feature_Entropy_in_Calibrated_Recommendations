@@ -153,14 +153,14 @@ class PierreGridSearch(BaseSearch):
         for train, test in zip(train_list, valid_list):
             if algorithm == Label.DEEP_AE:
                 recommender = recommender_pierre.DeppAutoEncModel.DeppAutoEncModel(
-                    factors=int(factors), epochs=int(epochs), dropout=int(dropout), lr=int(lr),
-                    reg=int(reg),
+                    factors=int(factors), epochs=int(epochs), dropout=float(dropout), lr=float(lr),
+                    reg=float(reg),
                     batch=64
                 )
             else:
                 recommender = recommender_pierre.CDAEModel.CDAEModel(
-                    factors=int(factors), epochs=int(epochs), dropout=int(dropout), lr=int(lr),
-                    reg=int(reg),
+                    factors=int(factors), epochs=int(epochs), dropout=float(dropout), lr=float(lr),
+                    reg=float(reg),
                     batch=64
                 )
             mapv, mrrv = PierreGridSearch.__fit_and_metric(recommender, train, test)
