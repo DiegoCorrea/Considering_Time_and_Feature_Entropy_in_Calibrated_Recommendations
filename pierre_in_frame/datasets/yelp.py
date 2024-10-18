@@ -112,6 +112,9 @@ class Yelp(Dataset):
             self.transactions[Label.TRANSACTION_VALUE] = np.where(
                 self.transactions[Label.TRANSACTION_VALUE] >= self.cut_value, 1, 0
             )
+        print("Drop Duplicate")
+        self.items.drop_duplicates(subset=[Label.ITEM_ID], inplace=True)
+        self.transactions.drop_duplicates(subset=[Label.USER_ID, Label.ITEM_ID], inplace=True, keep='last')
 
         print("Re-Indexing Dataset")
         self.reset_indexes()
