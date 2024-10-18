@@ -47,7 +47,7 @@ class ImplicitParams:
 
 
 class PierreParams:
-    size = 10
+    size = 50
     DAE_PARAMS = {
         "factors": randint(10, 150).rvs(size=size),
         "reg": uniform(0.0003, 0.1).rvs(size=size),
