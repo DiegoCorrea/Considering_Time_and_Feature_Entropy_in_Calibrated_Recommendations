@@ -174,6 +174,18 @@ class PierreStep1(Step):
             pool.close()
             pool.join()
 
+        time_df = pd.concat([
+            SaveAndLoad.load_distribution_time(
+                dataset=dataset, fold=fold, trial=trial, distribution=distribution
+            )
+            for dataset, trial, fold, distribution in list(itertools.product(*combination))
+        ])
+
+        # Save the distributions
+        SaveAndLoad.save_distribution_time_analyze(
+            data=time_df, dataset=self.experimental_settings['dataset']
+        )
+
     @staticmethod
     def compute_distribution(dataset: str, trial: int, fold: int, distribution: str) -> None:
         """
@@ -201,8 +213,12 @@ class PierreStep1(Step):
         )
 
         clocker.finish_count()
+        data = clocker.clock_data()
+        data["FOLD"] = fold
+        data["TRIAL"] = trial
+        data["DISTRIBUTION"] = distribution
         SaveAndLoad.save_distribution_time(
-            data=clocker.clock_data(), dataset=dataset, fold=fold, trial=trial, distribution=distribution
+            data=data, dataset=dataset, fold=fold, trial=trial, distribution=distribution
         )
 
         # logger.info(" ... ".join([

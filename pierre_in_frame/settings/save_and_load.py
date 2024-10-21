@@ -90,6 +90,19 @@ class SaveAndLoad:
             )
         )
 
+    @staticmethod
+    def load_distribution_time(
+            dataset: str,  trial: int, fold: int, distribution: str, ext: str = 'csv'
+    ):
+        """
+        This method is to load the distribution file.
+        """
+        preference_distribution_path = PathDirFile.preference_distribution_file(
+                dataset=dataset, fold=fold, trial=trial,
+                filename=distribution + "_" + "TIME"  + '.' + ext
+        )
+        return read_csv(preference_distribution_path, index_col=0).fillna(0)
+
     # ########################################################################################### #
 
     @staticmethod
@@ -129,6 +142,19 @@ class SaveAndLoad:
         data.to_csv(
             PathDirFile.dataset_analyze_file(
                 dataset=dataset, filename="general" + '.' + ext
+            ), index=False, mode='w+'
+        )
+
+    @staticmethod
+    def save_distribution_time_analyze(
+            data: DataFrame, dataset: str, ext: str = 'csv'
+    ):
+        """
+        This method is to save the distribution file.
+        """
+        data.to_csv(
+            PathDirFile.dataset_analyze_file(
+                dataset=dataset, filename="general_time" + '.' + ext
             ), index=False, mode='w+'
         )
 
