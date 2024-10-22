@@ -87,10 +87,11 @@ def genre_probability_distribution_single_core(transactions_df, items_df, label=
     print("Processing Genres")
     grouped_transactions = transactions_df.groupby(by=[label])
     batch_size = ceil(len(grouped_transactions)/Constants.N_CORES)
+    print(batch_size)
 
     pool = Pool(Constants.N_CORES)
     list_df = pool.map(batch_genre_process, [
-        (grouped_transactions[i * batch_size: batch_size * (i + 1) ], items_df)
+        (grouped_transactions[i * batch_size: batch_size * (i + 1)].copy(), items_df)
         for i in range(0, batch_size)
     ])
     pool.close()
