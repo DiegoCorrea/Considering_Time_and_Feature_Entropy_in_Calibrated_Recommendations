@@ -158,6 +158,19 @@ class SaveAndLoad:
             ), index=False, mode='w+'
         )
 
+    @staticmethod
+    def save_fold_analyze(
+            data: DataFrame, dataset: str, ext: str = 'csv'
+    ):
+        """
+        This method is to save the folds analyze file.
+        """
+        data.to_csv(
+            PathDirFile.dataset_analyze_file(
+                dataset=dataset, filename="FOLDS_ANALYZE" + '.' + ext
+            ), index=False, mode='w+'
+        )
+
     # ########################################################################################### #
     # ########################################################################################### #
     # ########################################################################################### #

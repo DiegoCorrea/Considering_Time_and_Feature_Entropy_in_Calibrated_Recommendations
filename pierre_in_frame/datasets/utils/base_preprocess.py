@@ -767,3 +767,38 @@ class Dataset:
                 "Users_trans_mean", "Users_trans_median", "mean_count_plays", "median_count_plays", "Minimum", "Maximum"
             ]
         )
+
+    def fold_basic_info(self, trial: int, fold: int):
+        """
+        This method is to print the cleaned dataset information
+        """
+
+        total_of_users = len(self.full_train_transaction[Label.USER_ID].unique())
+
+        count_user_trans = Counter(self.full_train_transaction[Label.USER_ID].tolist())
+        mean_user_transactions = round(mean(list(count_user_trans.values())), 3)
+        median_user_transactions = median(list(count_user_trans.values()))
+        min_user_transactions = min(list(count_user_trans.values()))
+        max_user_transactions = max(list(count_user_trans.values()))
+
+        unique_items_ids = self.full_train_transaction[Label.ITEM_ID].unique().tolist()
+        total_of_items = len(unique_items_ids)
+        total_of_transactions = len(self.full_train_transaction)
+        genre_list = self.items[self.items[Label.ITEM_ID].isin(unique_items_ids)][Label.GENRES].tolist()
+        # print(genre_list)
+        total_of_classes = len(
+            set(list(itertools.chain.from_iterable(
+                list(map(Dataset.classes, genre_list))
+            )))
+        )
+        return pd.DataFrame(
+            data=[[
+                trial, fold, total_of_users, total_of_items, total_of_transactions,
+                total_of_classes,
+                mean_user_transactions, median_user_transactions, min_user_transactions, max_user_transactions
+            ]],
+            columns=[
+                'Trial', 'Fold', 'Users', 'Items', 'Transactions',
+                'Classes', "Users_trans_mean", "Users_trans_median", "Minimum", "Maximum"
+            ]
+        )

@@ -127,6 +127,33 @@ class PierreStep1(Step):
             data=dataset_info_df, dataset=self.experimental_settings['dataset']
         )
 
+    def create_folds_analyze(self) -> None:
+
+        """
+        This method is to lead with the dataset numbers.
+        """
+
+        dataset_info_df = []
+        # Load the dataset
+        dataset_instance = RegisteredDataset.load_dataset(
+            dataset=self.experimental_settings['dataset']
+        )
+        dataset_instance.load_clean_items()
+        for t in self.experimental_settings['trial']:
+            for f in self.experimental_settings['fold']:
+
+                dataset_instance.get_full_train_transactions(trial=t, fold=f)
+                # Print the Clean dataset information
+                dataset_info_df.append(dataset_instance.fold_basic_info(trial=t, fold=f))
+
+        dataset_info_df = pd.concat(dataset_info_df)
+        print(dataset_info_df)
+
+        # Save the distributions
+        SaveAndLoad.save_fold_analyze(
+            data=dataset_info_df, dataset=self.experimental_settings['dataset']
+        )
+
     def compute_class_one_hot_encode(self, dataset):
         dataset_instance = RegisteredDataset.load_dataset(dataset)
         _items = ItemsInMemory(data=dataset_instance.get_items())
