@@ -1,4 +1,5 @@
 from collections import Counter
+from math import ceil
 from multiprocessing import Pool
 
 import numpy as np
@@ -74,15 +75,27 @@ def split_genres_inside(tu):
     df = DataFrame([values_list], columns=list(count_dict.keys()))
     return df
 
+def batch_genre_process(tu):
+    users_transactions_df, items_df = tu
+    return concat([
+        (df, items_df) for uid, df in users_transactions_df
+    ])
+
 
 def genre_probability_distribution_single_core(transactions_df, items_df, label=Label.USER_ID):
 
     print("Processing Genres")
     grouped_transactions = transactions_df.groupby(by=[label])
+    batch_size = ceil(len(grouped_transactions)/Constants.N_CORES)
+
     pool = Pool(Constants.N_CORES)
-    list_df = pool.map(split_genres_inside, [(df, items_df) for uid, df in grouped_transactions])
+    list_df = pool.map(split_genres_inside, [
+        (grouped_transactions[i * batch_size: batch_size * (i + 1) ], items_df)
+        for i in range(0, batch_size + 1)
+    ])
     pool.close()
     pool.join()
+    print("Concat Results")
     result_df = concat(list_df, sort=False)
     result_df.fillna(0.0, inplace=True)
     return result_df
