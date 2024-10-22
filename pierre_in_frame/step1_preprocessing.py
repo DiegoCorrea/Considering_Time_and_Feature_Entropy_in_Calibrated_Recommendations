@@ -261,6 +261,7 @@ class PierreStep1(Step):
             self.create_charts()
         elif self.experimental_settings['opt'] == Label.DATASET_ANALYZE:
             self.create_analyzes()
+            self.create_folds_analyze()
         elif self.experimental_settings['opt'] == Label.DATASET_DISTRIBUTION:
             self.create_distribution()
         elif self.experimental_settings['opt'] == Label.DATASET_CLASS_ONE_HOT_ENCODE:
