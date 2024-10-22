@@ -4,6 +4,7 @@ from multiprocessing import Pool
 
 import numpy as np
 from pandas import DataFrame, concat
+from tqdm import tqdm
 
 from settings.constants import Constants
 from settings.labels import Label
@@ -52,6 +53,40 @@ def genre_probability_distribution(transactions_df, label=Label.USER_ID):
     list_df = pool.map(split_genres, [transactions_df[transactions_df[label] == uid] for uid in id_list])
     pool.close()
     pool.join()
+    result_df = concat(list_df, sort=False)
+    result_df.fillna(0.0, inplace=True)
+    return result_df
+
+
+def genre_probability_distribution_mono(transactions_df, items_df, label=Label.USER_ID):
+    def split_genres_subinside(user_transactions_df):
+        transactions_genres_list = items_df[
+            items_df[Label.ITEM_ID].isin(user_transactions_df[Label.ITEM_ID].tolist())
+        ][Label.GENRES].tolist()
+        genres_list = []
+        for item_genre in transactions_genres_list:
+            splitted = item_genre.split('|')
+            splitted_genre_list = [genre for genre in splitted]
+            genres_list = genres_list + splitted_genre_list
+        count_dict = Counter(genres_list)
+        values_list = list(count_dict.values())
+        # sum_values_list = sum(values_list)
+        # values_list = [v / sum_values_list for v in values_list]
+        df = DataFrame([values_list], columns=list(count_dict.keys()))
+        progress.update(1)
+        progress.set_description("Genre Frequency Computation: ")
+        return df
+
+    print("Processing Genres")
+    grouped_transactions = transactions_df.groupby(by=[label])
+
+    progress = tqdm(total=len(grouped_transactions))
+
+    list_df = [
+        split_genres_subinside(df) for uid, df in grouped_transactions
+    ]
+    progress.close()
+    print("Concat Results")
     result_df = concat(list_df, sort=False)
     result_df.fillna(0.0, inplace=True)
     return result_df
