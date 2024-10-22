@@ -126,8 +126,8 @@ class Dataset:
             os.path.join(self.dataset_clean_path, PathDirFile.TRANSACTIONS_FILE)
         )
         self.transactions = self.transactions.astype({
-            Label.USER_ID: 'str',
-            Label.ITEM_ID: 'str'
+            Label.USER_ID: 'int32',
+            Label.ITEM_ID: 'int32'
         })
 
     def get_transactions(self) -> pd.DataFrame():
@@ -137,7 +137,10 @@ class Dataset:
         """
         # If it is the first requisition, load from the file
         self.load_clean_transactions()
-        return self.transactions
+        return self.transactions.astype({
+            Label.USER_ID: 'int32',
+            Label.ITEM_ID: 'int32'
+        })
 
     def set_transactions(self, new_transactions: pd.DataFrame):
         """
@@ -164,7 +167,10 @@ class Dataset:
         self.full_train_transaction = pd.concat(
             [self.train_transaction, self.validation_transaction]
         )
-        return self.full_train_transaction
+        return self.full_train_transaction.astype({
+            Label.USER_ID: 'int32',
+            Label.ITEM_ID: 'int32'
+        })
 
     def load_train_transactions(self, trial: int, fold: int):
         """
@@ -281,7 +287,9 @@ class Dataset:
         """
         # If is the first requisition, load from the file
         self.load_clean_items()
-        return self.items
+        return self.items.astype({
+            Label.ITEM_ID: 'int32'
+        })
 
     def set_items(self, new_items: pd.DataFrame):
         """
