@@ -78,12 +78,12 @@ def genre_probability_distribution_mono(transactions_df, items_df, label=Label.U
         return df
 
     print("Processing Genres")
-    id_list = transactions_df[label].unique().tolist()
+    grouped_transactions = transactions_df.groupby(by=[label])
 
-    progress = tqdm(total=len(id_list))
+    progress = tqdm(total=len(grouped_transactions))
 
     list_df = [
-        split_genres_subinside(transactions_df[transactions_df[label] == uid]) for uid in id_list
+        split_genres_subinside(df) for uid, df in grouped_transactions
     ]
     progress.close()
     print("Concat Results")
