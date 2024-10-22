@@ -48,4 +48,31 @@ class DatasetChart:
 
         items_genre_distr_df = genre_probability_distribution(self.dataset.get_items(), label=Label.ITEM_ID)
 
-        GenreChats.compare_genre_distribution_bar(users_genre_distr_df, items_genre_distr_df, self.dataset.dir_name)
+        GenreChats.compare_genre_distribution_bar_simple(users_genre_distr_df, items_genre_distr_df, self.dataset.dir_name)
+
+    def users_genres_raw_and_clean(self):
+        print("Processing Raw Items")
+        raw_transactions_df = self.dataset.get_raw_transactions().merge(self.dataset.get_raw_items(), on=Label.ITEM_ID)
+        raw_dist_df = genre_probability_distribution(raw_transactions_df, label=Label.USER_ID)
+        raw_dist_df.head(5)
+
+        print("Processing Clean Items")
+        clean_transactions_df = self.dataset.get_transactions().merge(self.dataset.get_items(), on=Label.ITEM_ID)
+        clean_dist_df = genre_probability_distribution(clean_transactions_df, label=Label.USER_ID)
+
+        GenreChats.compare_genre_distribution_bar(
+            distribution1=raw_dist_df, distribution2=clean_dist_df, dataset=self.dataset.dir_name,
+            label1="Raw", label2="Cleaned", ylabel="Total Times"
+        )
+
+    def items_genres_raw_and_clean(self):
+        print("Processing Raw Items")
+        raw_dist_df = genre_probability_distribution(self.dataset.get_raw_items(), label=Label.ITEM_ID)
+
+        print("Processing Clean Items")
+        clean_dist_df = genre_probability_distribution(self.dataset.get_items(), label=Label.ITEM_ID)
+
+        GenreChats.compare_genre_distribution_bar(
+            distribution1=raw_dist_df, distribution2=clean_dist_df, dataset=self.dataset.dir_name,
+            label1="Raw", label2="Cleaned", ylabel="Total Times"
+        )
