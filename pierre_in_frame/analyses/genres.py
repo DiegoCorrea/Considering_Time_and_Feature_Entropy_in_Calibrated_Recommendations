@@ -78,7 +78,7 @@ def split_genres_inside(tu):
 def batch_genre_process(tu):
     users_transactions_df, items_df = tu
     return concat([
-        (df, items_df) for uid, df in users_transactions_df
+        split_genres_inside((df, items_df)) for uid, df in users_transactions_df
     ])
 
 
@@ -89,7 +89,7 @@ def genre_probability_distribution_single_core(transactions_df, items_df, label=
     batch_size = ceil(len(grouped_transactions)/Constants.N_CORES)
 
     pool = Pool(Constants.N_CORES)
-    list_df = pool.map(split_genres_inside, [
+    list_df = pool.map(batch_genre_process, [
         (grouped_transactions[i * batch_size: batch_size * (i + 1) ], items_df)
         for i in range(0, batch_size + 1)
     ])
