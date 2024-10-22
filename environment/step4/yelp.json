@@ -1,6 +1,6 @@
 {
   "multiprocessing": "joblib",
-  "n_jobs": 63,
+  "n_jobs": 60,
   "checkpoint": "NO",
   "dataset": ["yelp"],
   "recommender": ["BPR", "ALS"],
