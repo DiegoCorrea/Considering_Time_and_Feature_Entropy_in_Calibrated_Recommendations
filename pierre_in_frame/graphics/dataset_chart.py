@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from analyses.genres import user_genres_analysis, genre_probability_distribution
+from analyses.genres import user_genres_analysis, genre_probability_distribution, \
+    genre_probability_distribution_single_core
 from analyses.popularities import count_item_popularity
 from datasets.registred_datasets import RegisteredDataset
 from graphics.genres import GenreChats
@@ -52,15 +53,17 @@ class DatasetChart:
 
     def users_genres_raw_and_clean(self):
         print("Processing Raw Items")
-        raw_dist_df = genre_probability_distribution(
-            transactions_df=self.dataset.get_raw_transactions().merge(self.dataset.get_raw_items(), on=Label.ITEM_ID),
+        raw_dist_df = genre_probability_distribution_single_core(
+            transactions_df=self.dataset.get_raw_transactions(),
+            items_df=self.dataset.get_items(),
             label=Label.USER_ID
         )
         raw_dist_df.head(5)
 
         print("Processing Clean Items")
-        clean_dist_df = genre_probability_distribution(
-            transactions_df=self.dataset.get_transactions().merge(self.dataset.get_items(), on=Label.ITEM_ID),
+        clean_dist_df = genre_probability_distribution_single_core(
+            transactions_df=self.dataset.get_transactions(),
+            items_df=self.dataset.get_items(),
             label=Label.USER_ID
         )
 
