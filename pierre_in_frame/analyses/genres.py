@@ -56,28 +56,31 @@ def genre_probability_distribution(transactions_df, label=Label.USER_ID):
     return result_df
 
 
+def split_genres_inside(tu):
+    user_transactions_df, items_df = tu
+    # transactions_genres_list = user_transactions_df[Label.GENRES].tolist()
+    transactions_genres_list = items_df[
+        items_df[Label.ITEM_ID].isin(user_transactions_df[Label.ITEM_ID].tolist())
+    ][Label.GENRES].tolist()
+    genres_list = []
+    for item_genre in transactions_genres_list:
+        splitted = item_genre.split('|')
+        splitted_genre_list = [genre for genre in splitted]
+        genres_list = genres_list + splitted_genre_list
+    count_dict = Counter(genres_list)
+    values_list = list(count_dict.values())
+    # sum_values_list = sum(values_list)
+    # values_list = [v / sum_values_list for v in values_list]
+    df = DataFrame([values_list], columns=list(count_dict.keys()))
+    return df
+
+
 def genre_probability_distribution_single_core(transactions_df, items_df, label=Label.USER_ID):
-    def split_genres_inside(user_transactions_df):
-        # transactions_genres_list = user_transactions_df[Label.GENRES].tolist()
-        transactions_genres_list = items_df[
-            items_df[Label.ITEM_ID].isin(user_transactions_df[Label.ITEM_ID].tolist())
-        ][Label.GENRES].tolist()
-        genres_list = []
-        for item_genre in transactions_genres_list:
-            splitted = item_genre.split('|')
-            splitted_genre_list = [genre for genre in splitted]
-            genres_list = genres_list + splitted_genre_list
-        count_dict = Counter(genres_list)
-        values_list = list(count_dict.values())
-        # sum_values_list = sum(values_list)
-        # values_list = [v / sum_values_list for v in values_list]
-        df = DataFrame([values_list], columns=list(count_dict.keys()))
-        return df
 
     print("Processing Genres")
     grouped_transactions = transactions_df.groupby(by=[label])
     pool = Pool(Constants.N_CORES)
-    list_df = pool.map(split_genres_inside, [df for uid, df in grouped_transactions])
+    list_df = pool.map(split_genres_inside, [(df, items_df) for uid, df in grouped_transactions])
     pool.close()
     pool.join()
     result_df = concat(list_df, sort=False)
