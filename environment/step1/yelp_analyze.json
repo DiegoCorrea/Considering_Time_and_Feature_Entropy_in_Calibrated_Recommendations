@@ -1,5 +1,4 @@
 {
-  "experiment_name": "COMPARING_MODELS",
   "opt": "ANALYZE",
   "dataset": "yelp",
   "based_on": "CVTT",

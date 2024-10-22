@@ -104,6 +104,7 @@ class PierreStep1(Step):
         dt_chat.item_long_tail()
         dt_chat.genres()
         dt_chat.items_genres_raw_and_clean()
+        dt_chat.users_genres_raw_and_clean()
 
     def create_analyzes(self):
         """
