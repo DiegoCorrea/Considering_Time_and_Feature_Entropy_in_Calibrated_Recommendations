@@ -266,9 +266,6 @@ class Dataset:
         self.items = pd.read_csv(
             os.path.join(self.dataset_clean_path, PathDirFile.ITEMS_FILE)
         )
-        self.items = self.items.astype({
-            Label.ITEM_ID: 'str'
-        })
 
     def load_clean_dataset(self):
         """
