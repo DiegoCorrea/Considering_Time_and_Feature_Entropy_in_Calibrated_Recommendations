@@ -74,17 +74,15 @@ def genre_probability_distribution_mono(
             genres_list = genres_list + splitted_genre_list
         count_dict = Counter(genres_list)
         values_list = list(count_dict.values())
-        # sum_values_list = sum(values_list)
-        # values_list = [v / sum_values_list for v in values_list]
+
         df = DataFrame([values_list], columns=list(count_dict.keys()))
 
         diff_columns = list(set(total_of_classes) - set(df.columns))
-        for column in diff_columns:
-            df[column] = 0
+        df_0 = DataFrame([[0] * len(diff_columns)], columns=diff_columns)
 
         progress.update(1)
         progress.set_description("Genre Frequency Computation: ")
-        return df
+        return concat([df, df_0], sort=False, axis=1, ignore_index=False)
 
     print("Processing Genres")
     genre_list = items_df[Label.GENRES].tolist()
