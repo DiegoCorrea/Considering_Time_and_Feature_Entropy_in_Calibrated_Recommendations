@@ -60,8 +60,10 @@ def genre_probability_distribution(transactions_df, label=Label.USER_ID):
     return result_df
 
 
-def genre_probability_distribution_mono(transactions_df, items_df, label=Label.USER_ID):
-    def split_genres_subinside(user_transactions_df):
+def genre_probability_distribution_mono(
+        transactions_df: DataFrame, items_df: DataFrame, label : str = Label.USER_ID
+) -> DataFrame:
+    def split_genres_subinside(user_transactions_df: DataFrame) -> DataFrame:
         transactions_genres_list = items_df[
             items_df[Label.ITEM_ID].isin(user_transactions_df[Label.ITEM_ID].tolist())
         ][Label.GENRES].tolist()
@@ -99,7 +101,7 @@ def genre_probability_distribution_mono(transactions_df, items_df, label=Label.U
     ]
     progress.close()
     print("Concat Results")
-    result_df = concat(list_df, sort=False)
+    result_df = concat(list_df, sort=False, ignore_index=False)
     result_df.fillna(0.0, inplace=True)
     return result_df
 
