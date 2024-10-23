@@ -75,6 +75,11 @@ def genre_probability_distribution_mono(transactions_df, items_df, label=Label.U
         # sum_values_list = sum(values_list)
         # values_list = [v / sum_values_list for v in values_list]
         df = DataFrame([values_list], columns=list(count_dict.keys()))
+
+        diff_columns = list(set(total_of_classes) - set(df.columns))
+        for column in diff_columns:
+            df[column] = 0
+
         progress.update(1)
         progress.set_description("Genre Frequency Computation: ")
         return df
@@ -89,7 +94,7 @@ def genre_probability_distribution_mono(transactions_df, items_df, label=Label.U
 
     progress = tqdm(total=len(grouped_transactions))
 
-    list_df = [DataFrame([[0] * len(total_of_classes)], columns=total_of_classes)] + [
+    list_df = [
         split_genres_subinside(df) for uid, df in grouped_transactions
     ]
     progress.close()
