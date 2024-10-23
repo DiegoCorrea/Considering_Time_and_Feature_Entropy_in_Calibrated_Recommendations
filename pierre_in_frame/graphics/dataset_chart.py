@@ -58,7 +58,6 @@ class DatasetChart:
             items_df=self.dataset.get_items(),
             label=Label.USER_ID
         )
-        raw_dist_df.head(5)
 
         print("Processing Clean Items")
         clean_dist_df = genre_probability_distribution_mono(
@@ -66,6 +65,10 @@ class DatasetChart:
             items_df=self.dataset.get_items(),
             label=Label.USER_ID
         )
+
+        diff_columns = list(set(raw_dist_df.columns) - set(clean_dist_df.columns))
+        for column in diff_columns:
+            clean_dist_df[column] = 0
 
         GenreChats.compare_genre_distribution_bar(
             distribution1=raw_dist_df, distribution2=clean_dist_df, dataset=self.dataset.dir_name,
