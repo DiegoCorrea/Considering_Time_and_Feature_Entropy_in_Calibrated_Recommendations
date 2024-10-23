@@ -1,3 +1,4 @@
+import itertools
 from collections import Counter
 from math import ceil
 from multiprocessing import Pool
@@ -6,6 +7,7 @@ import numpy as np
 from pandas import DataFrame, concat
 from tqdm import tqdm
 
+from datasets.utils.base_preprocess import Dataset
 from settings.constants import Constants
 from settings.labels import Label
 
@@ -78,11 +80,16 @@ def genre_probability_distribution_mono(transactions_df, items_df, label=Label.U
         return df
 
     print("Processing Genres")
+    genre_list = items_df[Label.GENRES].tolist()
+    # print(genre_list)
+    total_of_classes = list(set(list(itertools.chain.from_iterable(
+        list(map(Dataset.classes, genre_list))
+    ))))
     grouped_transactions = transactions_df.groupby(by=[label])
 
     progress = tqdm(total=len(grouped_transactions))
 
-    list_df = [
+    list_df = [DataFrame([[0] * len(total_of_classes)], columns=total_of_classes)] + [
         split_genres_subinside(df) for uid, df in grouped_transactions
     ]
     progress.close()
