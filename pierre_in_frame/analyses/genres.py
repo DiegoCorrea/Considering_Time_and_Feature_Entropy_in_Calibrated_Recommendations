@@ -95,7 +95,7 @@ def genre_probability_distribution_mono(
     progress.close()
     print("Concat Results")
 
-    return DataFrame.from_dict(list_df).fillna(0.0)
+    return DataFrame.from_dict(list_df, columns=total_of_classes).fillna(0.0)
 
 def split_genres_inside(tu):
     user_transactions_df, items_df = tu
