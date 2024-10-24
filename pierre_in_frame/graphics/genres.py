@@ -187,8 +187,8 @@ class GenreChats:
         fig, (ax1, ax2) = plt.subplots(2)
         plt.rc('xtick', labelsize=16)
         plt.rc('ytick', labelsize=16)
-        rects1 = ax1.bar(x - width / 2, dist1_means, width, label=label1)
-        rects2 = ax2.bar(x + width / 2, dist2_means, width, label=label2)
+        rects1 = ax1.bar(x - width / 2, dist1_means, width, label=label1, color="red")
+        rects2 = ax2.bar(x + width / 2, dist2_means, width, label=label2, color="blue")
 
         # Add some text for labels, title and custom x-axis tick labels, etc.
         ax1.set_ylabel(ylabel, fontsize=ChartsConfig.FONT_SIZE_VALUE)

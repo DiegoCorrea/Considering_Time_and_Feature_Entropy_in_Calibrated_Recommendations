@@ -274,3 +274,4 @@ typings/
 /data/
 *.whl
 /results/*
+/results/
