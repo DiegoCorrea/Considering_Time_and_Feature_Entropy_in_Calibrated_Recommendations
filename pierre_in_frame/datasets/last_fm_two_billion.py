@@ -161,7 +161,7 @@ class LastFMTwoBillion(Dataset):
             line = json.loads(line_str)
             genres = "|".join(list(line["tags"].keys()))
             if len(genres) == 0 or genres is None:
-                genres = ""
+                genres = "(no genres listed)"
             result = {
                 Label.ITEM_ID: int(line["i"]),
                 Label.ARTIST: line["_id"]["artist"],
@@ -187,7 +187,7 @@ class LastFMTwoBillion(Dataset):
 
         # Clean the items without information and with the label indicating no genre in the item.
         raw_items_df.dropna(inplace=True)
-        genre_clean_items = raw_items_df[raw_items_df[Label.GENRES] != '']
+        genre_clean_items = raw_items_df[raw_items_df[Label.GENRES] != '(no genres listed)']
 
         # Set the new data into the instance.
         self.set_items(new_items=genre_clean_items)
