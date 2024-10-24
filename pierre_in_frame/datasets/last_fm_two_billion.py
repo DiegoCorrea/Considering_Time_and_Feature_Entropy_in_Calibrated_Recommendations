@@ -55,11 +55,11 @@ class LastFMTwoBillion(Dataset):
         """
         Load raw transactions into the instance variable.
         """
-        self.raw_transactions = pd.read_csv(
+        raw_transactions = pd.read_csv(
             os.path.join(self.dataset_raw_path, self.raw_transaction_file),
             engine='python', sep='\t'
         )
-        self.raw_transactions.rename(
+        raw_transactions.rename(
             columns={
                 'user_id': Label.USER_ID,
                 'track_id': Label.ITEM_ID,
@@ -67,6 +67,7 @@ class LastFMTwoBillion(Dataset):
                 'timestamp': Label.TIME,
             }, inplace=True
         )
+        self.raw_transactions = self.filtering_transations(raw_transactions)
 
     def filtering_transations(self, raw_transactions):
         combined_raw_transactions = raw_transactions.groupby(
@@ -90,8 +91,7 @@ class LastFMTwoBillion(Dataset):
         super().clean_transactions()
 
         # Load the raw transactions.
-        raw_transactions = self.get_raw_transactions()
-        combined_raw_transactions = self.filtering_transations(raw_transactions)
+        combined_raw_transactions = self.get_raw_transactions()
 
         combined_raw_transactions = combined_raw_transactions.astype({
             Label.USER_ID: 'int32',

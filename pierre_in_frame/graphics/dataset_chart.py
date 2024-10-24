@@ -55,7 +55,7 @@ class DatasetChart:
         print("Processing Raw Items")
         raw_dist_df = genre_probability_distribution_mono(
             transactions_df=self.dataset.get_raw_transactions(),
-            items_df=self.dataset.get_items(),
+            items_df=self.dataset.load_raw_items(),
             label=Label.USER_ID
         )
 
