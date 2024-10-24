@@ -159,11 +159,14 @@ class LastFMTwoBillion(Dataset):
 
         def make_dict(line_str: str):
             line = json.loads(line_str)
+            genres = "|".join(list(line["tags"].keys()))
+            if len(genres) == 0 or genres is None:
+                genres = ""
             result = {
                 Label.ITEM_ID: int(line["i"]),
                 Label.ARTIST: line["_id"]["artist"],
                 Label.TRACK_ID: line["_id"]["track"],
-                Label.GENRES: "|".join(list(line["tags"].keys())),
+                Label.GENRES: genres,
             }
             return result
 
