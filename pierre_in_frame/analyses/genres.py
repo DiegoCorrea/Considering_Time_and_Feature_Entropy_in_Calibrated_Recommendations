@@ -63,7 +63,7 @@ def genre_probability_distribution(transactions_df, label=Label.USER_ID):
 def genre_probability_distribution_mono(
         transactions_df: DataFrame, items_df: DataFrame, label : str = Label.USER_ID
 ) -> DataFrame:
-    def split_genres_subinside(user_transactions_df: DataFrame) -> DataFrame:
+    def split_genres_subinside(user_transactions_df: DataFrame) -> dict:
         transactions_genres_list = items_df[
             items_df[Label.ITEM_ID].isin(user_transactions_df[Label.ITEM_ID].tolist())
         ][Label.GENRES].tolist()
@@ -75,6 +75,7 @@ def genre_probability_distribution_mono(
         count_dict = Counter(genres_list)
         values_list = list(count_dict.values())
 
+        results_dict = dict(count_dict)
         df = DataFrame([values_list], columns=list(count_dict.keys()))
 
         diff_columns = list(set(total_of_classes) - set(df.columns))
@@ -82,7 +83,8 @@ def genre_probability_distribution_mono(
 
         progress.update(1)
         progress.set_description("Genre Frequency Computation: ")
-        return concat([df, df_0], sort=False, axis=1, ignore_index=False)
+        # return concat([df, df_0], sort=False, axis=1, ignore_index=False)
+        return results_dict
 
     print("Processing Genres")
     genre_list = items_df[Label.GENRES].tolist()
@@ -99,10 +101,11 @@ def genre_probability_distribution_mono(
     ]
     progress.close()
     print("Concat Results")
-    result_df = concat(list_df, sort=False, ignore_index=False)
-    result_df.fillna(0.0, inplace=True)
-    return result_df
+    # result_df = concat(list_df, sort=False, ignore_index=False)
+    # result_df.fillna(0.0, inplace=True)
+    # return result_df
 
+    return DataFrame.from_dict(list_df).fillna(0.0)
 
 def split_genres_inside(tu):
     user_transactions_df, items_df = tu
