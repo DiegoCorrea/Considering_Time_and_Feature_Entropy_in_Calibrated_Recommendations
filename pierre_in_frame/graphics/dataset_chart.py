@@ -70,10 +70,16 @@ class DatasetChart:
         for column in diff_columns:
             clean_dist_df[column] = 0
 
+        GenreChats.compare_genre_distribution_bar(
+            distribution1=raw_dist_df, distribution2=clean_dist_df, dataset=self.dataset.dir_name,
+            label1="Raw", label2="Cleaned", ylabel="Total Times",
+            graphic_name="users_genres_raw_and_clean"
+        )
+
         GenreChats.compare_genre_distribution_two_bar(
             distribution1=raw_dist_df, distribution2=clean_dist_df, dataset=self.dataset.dir_name,
             label1="Raw", label2="Cleaned", ylabel="Frequency",
-            graphic_name="users_genres_raw_and_clean"
+            graphic_name="compare_genre_distribution_two_bar"
         )
 
     def items_genres_raw_and_clean(self):
