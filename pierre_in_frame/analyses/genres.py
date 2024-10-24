@@ -72,23 +72,16 @@ def genre_probability_distribution_mono(
             splitted = item_genre.split('|')
             splitted_genre_list = [genre for genre in splitted]
             genres_list = genres_list + splitted_genre_list
-        count_dict = Counter(genres_list)
-        values_list = list(count_dict.values())
 
-        results_dict = dict(count_dict)
-        df = DataFrame([values_list], columns=list(count_dict.keys()))
-
-        diff_columns = list(set(total_of_classes) - set(df.columns))
-        df_0 = DataFrame([[0] * len(diff_columns)], columns=diff_columns)
+        results_dict = dict(Counter(genres_list))
 
         progress.update(1)
         progress.set_description("Genre Frequency Computation: ")
-        # return concat([df, df_0], sort=False, axis=1, ignore_index=False)
         return results_dict
 
     print("Processing Genres")
     genre_list = items_df[Label.GENRES].tolist()
-    # print(genre_list)
+
     total_of_classes = list(set(list(itertools.chain.from_iterable(
         list(map(Dataset.classes, genre_list))
     ))))
@@ -101,9 +94,6 @@ def genre_probability_distribution_mono(
     ]
     progress.close()
     print("Concat Results")
-    # result_df = concat(list_df, sort=False, ignore_index=False)
-    # result_df.fillna(0.0, inplace=True)
-    # return result_df
 
     return DataFrame.from_dict(list_df).fillna(0.0)
 
