@@ -158,6 +158,8 @@ class FoodComRecipe(Dataset):
             }, inplace=True
         )
         self.raw_items.apply(lambda tags: "|".join(tags), index=[Label.GENRES], axis=1)
+        self.raw_items[Label.GENRES] = self.raw_items[Label.GENRES].apply(
+            lambda tags: "|".join(ast.literal_eval(tags)))
 
     def clean_items(self):
         """
