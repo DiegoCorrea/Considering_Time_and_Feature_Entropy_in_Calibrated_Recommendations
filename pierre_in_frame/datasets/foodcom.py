@@ -157,7 +157,7 @@ class FoodComRecipe(Dataset):
                 'tags': Label.GENRES,
             }, inplace=True
         )
-        # self.raw_items.apply(lambda tags: "|".join(tags), index=[Label.GENRES], axis=1)
+        self.raw_items.apply(lambda tags: "|".join(tags), index=[Label.GENRES], axis=1)
 
     def clean_items(self):
         """
