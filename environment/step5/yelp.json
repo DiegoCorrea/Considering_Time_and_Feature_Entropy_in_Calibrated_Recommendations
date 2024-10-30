@@ -1,13 +1,13 @@
 {
   "multiprocessing": "joblib",
-  "n_jobs": 60,
-  "checkpoint": "NO",
+  "n_jobs": 63,
+  "checkpoint": "YES",
   "opt": "EVALUATION_METRICS",
   "metric": [
     "MAP",
     "MACE"
   ],
-  "recommender": ["BPR", "ALS"],
+  "recommender": ["BPR", "ALS", "DEEP_AE"],
   "dataset": ["yelp"],
   "fold": [1, 2, 3],
   "trial": [1],
