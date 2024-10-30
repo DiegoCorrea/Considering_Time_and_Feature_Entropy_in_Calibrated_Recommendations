@@ -151,6 +151,7 @@ class PierreGridSearch(BaseSearch):
         mrr_value = []
 
         for train, test in zip(train_list, valid_list):
+            recommender = None
             if algorithm == Label.DEEP_AE:
                 recommender = recommender_pierre.DeppAutoEncModel.DeppAutoEncModel(
                     factors=int(factors), epochs=int(epochs), dropout=float(dropout), lr=float(lr),
@@ -167,6 +168,8 @@ class PierreGridSearch(BaseSearch):
             map_value.append(mapv)
             mrr_value.append(mrrv)
 
+        print("MRR: ", mrr_value)
+        print("MAP: ", map_value)
         return {
             "map": mean(map_value),
             "mrr": mean(mrr_value),
@@ -319,14 +322,13 @@ class PierreGridSearch(BaseSearch):
             # ]
 
             # Starting the recommender algorithm
-            self.output = list(Parallel(n_jobs=self.n_jobs, verbose=100)(
-                delayed(PierreGridSearch.fit_autoencoders)(
+            self.output = list(PierreGridSearch.fit_autoencoders(
                     algorithm=self.algorithm, factors=factors, epochs=epochs,
                     dropout=dropout, lr=lr, reg=reg,
                     train_list=deepcopy(self.train_list),
                     valid_list=deepcopy(self.valid_list)
                 ) for factors, epochs, dropout, lr, reg in params_to_use
-            ))
+            )
         elif self.algorithm in Label.EASE_RECOMMENDERS:
             params_to_use = self.get_params_ease()
             print("Total of combinations: ", str(len(params_to_use)))
