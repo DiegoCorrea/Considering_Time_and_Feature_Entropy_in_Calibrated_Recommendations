@@ -67,6 +67,21 @@ class BaseSearch:
             best_params=best_params, dataset=self.dataset.system_name, algorithm=self.algorithm
         )
 
+    @staticmethod
+    def defining_metric_and_save_during_run(dataset_name, algorithm, params):
+        """
+        Saves the pierre grid search algorithm to a file.
+        """
+        # Load the surprise recommender algorithm
+        full_params = SaveAndLoad.load_hyperparameters_recommender(
+            dataset=dataset_name, algorithm=algorithm
+        )
+        if float(full_params["map"]) < float(params["map"]):
+            # Saving
+            SaveAndLoad.save_hyperparameters_recommender(
+                best_params=params, dataset=dataset_name, algorithm=algorithm
+            )
+
     def preparing_recommenders(self):
         """
         This method is to be overridden by subclasses.

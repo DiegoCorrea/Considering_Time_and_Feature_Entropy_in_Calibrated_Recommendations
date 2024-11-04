@@ -142,7 +142,7 @@ class PierreGridSearch(BaseSearch):
 
     @staticmethod
     def fit_autoencoders(
-            algorithm, factors, epochs, dropout, lr, reg, train_list, valid_list
+            algorithm, factors, epochs, dropout, lr, reg, train_list, valid_list, dataset_name
     ):
         """
         Fits the pierre grid search algorithm to the training set and testing set.
@@ -170,7 +170,7 @@ class PierreGridSearch(BaseSearch):
 
         print("MRR: ", mrr_value)
         print("MAP: ", map_value)
-        return {
+        params = {
             "map": mean(map_value),
             "mrr": mean(mrr_value),
             "params": {
@@ -181,6 +181,10 @@ class PierreGridSearch(BaseSearch):
                 "reg": reg
             }
         }
+        PierreGridSearch.defining_metric_and_save_during_run(
+            dataset_name=dataset_name, algorithm=algorithm, params=params
+        )
+        return params
 
     @staticmethod
     def fit_popularity(
@@ -326,7 +330,8 @@ class PierreGridSearch(BaseSearch):
                     algorithm=self.algorithm, factors=factors, epochs=epochs,
                     dropout=dropout, lr=lr, reg=reg,
                     train_list=deepcopy(self.train_list),
-                    valid_list=deepcopy(self.valid_list)
+                    valid_list=deepcopy(self.valid_list),
+                    dataset_name=self.dataset.system_name
                 ) for factors, epochs, dropout, lr, reg in params_to_use
             )
         elif self.algorithm in Label.EASE_RECOMMENDERS:
