@@ -79,7 +79,7 @@ class DatasetChart:
 
         GenreChats.compare_genre_distribution_two_bar(
             distribution1=raw_dist_df, distribution2=clean_dist_df, dataset=self.dataset.dir_name,
-            label1="Raw", label2="Cleaned", ylabel="Frequency",
+            label1="Raw", label2="Cleaned", ylabel="Frequency", xlabel="Genres",
             graphic_name="compare_genre_distribution_two_bar"
         )
         print("Graphics saved")

@@ -1,5 +1,5 @@
 
-import matplotlib
+# import matplotlib
 import numpy as np
 import pandas as pd
 
@@ -7,10 +7,10 @@ from settings.charts import ChartsConfig
 from settings.labels import Label
 from settings.path_dir_file import PathDirFile
 
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-matplotlib.style.use('ggplot')
+# matplotlib.style.use('ggplot')
 # matplotlib.style.use('default')
 
 
@@ -166,11 +166,18 @@ class GenreChats:
     @staticmethod
     def compare_genre_distribution_two_bar(
             distribution1, distribution2, dataset: str,
-            label1: str = 'Users', label2: str = 'Items', ylabel: str = 'Genres',
+            label1: str = 'Users', label2: str = 'Items',
+            ylabel: str = 'Frequency', xlabel: str = 'Genres',
             graphic_name: str = "compare_genre_distribution_bar"
     ):
-        distribution1 = distribution1.reindex(sorted(distribution1.columns), axis=1)
-        distribution2 = distribution2.reindex(sorted(distribution2.columns), axis=1)
+        # distribution1 = distribution1.reindex(columns=sorted(distribution1.columns), axis=1)
+        # distribution2 = distribution2.reindex(columns=sorted(distribution2.columns), axis=1)
+        columns_1 = list(distribution1.columns.values)
+        columns_1.sort()
+        columns_2 = list(distribution2.columns.values)
+        columns_2.sort()
+        distribution1 = distribution1[columns_1]
+        distribution2 = distribution2[columns_2]
         dist1_sum_list = distribution1.sum(axis=0).tolist()
         dist2_sum_list = distribution2.sum(axis=0).tolist()
         dist1_sum = sum(dist1_sum_list)
@@ -193,6 +200,9 @@ class GenreChats:
         # Add some text for labels, title and custom x-axis tick labels, etc.
         ax1.set_ylabel(ylabel, fontsize=ChartsConfig.FONT_SIZE_VALUE)
         ax2.set_ylabel(ylabel, fontsize=ChartsConfig.FONT_SIZE_VALUE)
+        ax1.set_xlabel(xlabel, fontsize=ChartsConfig.FONT_SIZE_VALUE)
+        ax2.set_xlabel(xlabel, fontsize=ChartsConfig.FONT_SIZE_VALUE)
+
         # ax.set_xticks(x)
         # ax.set_xticklabels(labels)
         # ax.legend()
