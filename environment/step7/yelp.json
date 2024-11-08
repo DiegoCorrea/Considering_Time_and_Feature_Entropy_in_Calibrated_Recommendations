@@ -8,7 +8,7 @@
     "MAP",
     "MACE"
   ],
-  "recommender": ["ALS", "BPR"],
+  "recommender": ["BPR", "ALS", "DEEP_AE"],
   "tradeoff": ["LIN"],
   "fairness": ["KL"],
   "relevance": ["SUM"],
