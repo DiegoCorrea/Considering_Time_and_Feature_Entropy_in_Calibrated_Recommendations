@@ -52,6 +52,7 @@ class MovielensOneMillion(Dataset):
         """
         Load raw transactions into the instance variable.
         """
+        print("Loading Raw Transactions")
         self.raw_transactions = pd.read_csv(
             os.path.join(self.dataset_raw_path, self.raw_transaction_file),
             names=[Label.USER_ID, Label.ITEM_ID, Label.TRANSACTION_VALUE, Label.TIME],
@@ -66,10 +67,12 @@ class MovielensOneMillion(Dataset):
 
         # Load the raw transactions.
         raw_transactions = self.get_raw_transactions()
-
+        print("Cleaning Dataset")
+        print("Drop Duplicate")
         # Filter transactions based on the items id list.
         filtered_raw_transactions = raw_transactions[
-            raw_transactions[Label.ITEM_ID].isin(self.items[Label.ITEM_ID].tolist())]
+            raw_transactions[Label.ITEM_ID].isin(self.items[Label.ITEM_ID].tolist())
+        ].drop_duplicates(subset=[Label.USER_ID, Label.ITEM_ID], keep='last')
 
         # Cut users and set the new data into the instance.
         self.set_transactions(
@@ -99,6 +102,8 @@ class MovielensOneMillion(Dataset):
             self.transactions[Label.TRANSACTION_VALUE] = np.where(
                 self.transactions[Label.TRANSACTION_VALUE] >= self.cut_value, 1, 0
             )
+        print("Re-Indexing Dataset")
+        self.reset_indexes()
 
         # Save the clean transactions as CSV.
         count_user_trans = Counter(self.transactions[Label.USER_ID].tolist())
@@ -106,10 +111,10 @@ class MovielensOneMillion(Dataset):
         max_c = max(list(count_user_trans.values()))
         print(f"Maximum: {max_c}")
         print(f"Minimum: {min_c}")
-        self.transactions = self.transactions.astype({
-            Label.USER_ID: 'int32',
-            Label.ITEM_ID: 'int32'
-        })
+        # self.transactions = self.transactions.astype({
+        #     Label.USER_ID: 'int32',
+        #     Label.ITEM_ID: 'int32'
+        # })
         self.transactions.to_csv(
             os.path.join(self.dataset_clean_path, PathDirFile.TRANSACTIONS_FILE),
             index=False,
@@ -129,6 +134,7 @@ class MovielensOneMillion(Dataset):
         """
         Load Raw Items into the instance variable.
         """
+        print("Loading Raw Items")
         self.raw_items = pd.read_csv(
             os.path.join(self.dataset_raw_path, self.raw_items_file), engine='python',
             sep='::', names=[Label.ITEM_ID, Label.TITLE, Label.GENRES], encoding='ISO-8859-1'
