@@ -1,20 +1,13 @@
 {
   "multiprocessing": "joblib",
-  "n_jobs": 63,
+  "n_jobs": 40,
   "checkpoint": "NO",
   "opt": "EVALUATION_METRICS",
   "metric": [
-    "ILS",
-    "MC",
-    "MAMC",
-    "MAP",
-    "MRR",
-    "SERENDIPITY",
-    "COVERAGE",
-    "PERSONALIZATION",
-    "UNEXPECTEDNESS"
+    "MACE",
+    "MAP"
   ],
-  "recommender": ["ALS", "BPR", "DEEP_AE"],
+  "recommender": ["ALS", "BPR"],
   "cluster": [],
   "dataset": ["ml-1m"],
   "fold": [1, 2, 3],

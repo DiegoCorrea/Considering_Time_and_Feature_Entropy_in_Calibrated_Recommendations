@@ -807,3 +807,17 @@ class Dataset:
                 'Classes', "Users_trans_mean", "Users_trans_median", "Minimum", "Maximum"
             ]
         )
+
+    def max_precision(self, list_size: int, trial: int, fold: int):
+        validation_set = self.get_validation_transactions(trial=trial, fold=fold)
+        precision = 0
+        for ix, df in validation_set.groupby(by=[Label.USER_ID]):
+            total = 0
+            value = df[Label.TRANSACTION_VALUE].sum()
+            for v in range(1, list_size + 1):
+                if v > value:
+                    total += value/v
+                else:
+                    total += v/v
+            precision += total/list_size
+        print("The max precision is: ", precision/len(validation_set[Label.USER_ID].unique()))

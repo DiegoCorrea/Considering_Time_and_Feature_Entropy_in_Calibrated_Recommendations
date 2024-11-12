@@ -147,6 +147,7 @@ class PierreStep1(Step):
                 dataset_instance.get_full_train_transactions(trial=t, fold=f)
                 # Print the Clean dataset information
                 dataset_info_df.append(dataset_instance.fold_basic_info(trial=t, fold=f))
+                dataset_instance.max_precision(trial=t, fold=f, list_size=10)
 
         dataset_info_df = pd.concat(dataset_info_df)
         print(dataset_info_df)

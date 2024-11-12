@@ -1,9 +1,9 @@
 {
   "multiprocessing": "joblib",
-  "n_jobs": 63,
+  "n_jobs": 40,
   "checkpoint": "NO",
   "dataset": ["ml-1m"],
-  "recommender": ["BPR", "ALS", "DEEP_AE"],
+  "recommender": ["BPR", "ALS"],
   "fold": [1, 2, 3],
   "trial": [1],
   "tradeoff": ["LIN"],
