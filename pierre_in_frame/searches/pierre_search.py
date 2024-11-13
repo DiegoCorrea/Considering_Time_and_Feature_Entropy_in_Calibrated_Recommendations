@@ -348,7 +348,7 @@ class PierreGridSearch(BaseSearch):
                     train_list=deepcopy(self.train_list),
                     valid_list=deepcopy(self.valid_list),
                     dataset_name=self.dataset.system_name
-                ) for factors, epochs, dropout, lr, reg in params_to_use
+                ) for i, (factors, epochs, dropout, lr, reg) in enumerate(params_to_use)
             )
         elif self.algorithm in Label.EASE_RECOMMENDERS:
             params_to_use = self.get_params_ease()
@@ -368,7 +368,7 @@ class PierreGridSearch(BaseSearch):
                     valid_list=deepcopy(self.valid_list),
                     dataset_name=self.dataset.system_name,
                     algorithm=self.algorithm
-                ) for lambda_, implicit in params_to_use
+                ) for i, (lambda_, implicit) in enumerate(params_to_use)
             ))
         elif self.algorithm in Label.POPULARITY_REC:
             self.output = []
@@ -401,8 +401,8 @@ class PierreGridSearch(BaseSearch):
                     list_size=self.list_size,
                     dataset_name=self.dataset.system_name,
                     algorithm=self.algorithm
-                ) for factors, learning_rate, lambda_item, lambda_user, lambda_bias, iterations
-                in params_to_use
+                ) for i, (factors, learning_rate, lambda_item, lambda_user, lambda_bias, iterations)
+                in enumerate(params_to_use)
             ))
         else:
             params_to_use = self.get_bpr_params()
@@ -418,7 +418,7 @@ class PierreGridSearch(BaseSearch):
                     list_size=self.list_size,
                     dataset_name=self.dataset.system_name,
                     algorithm=self.algorithm
-                ) for factors, regularization, learning_rate, iterations, random_state, num_threads
-                in params_to_use
+                ) for i, (factors, regularization, learning_rate, iterations, random_state, num_threads)
+                in enumerate(params_to_use)
             ))
 

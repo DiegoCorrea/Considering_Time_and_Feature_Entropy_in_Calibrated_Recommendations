@@ -191,7 +191,7 @@ class GenreChats:
         x = np.arange(1, len(labels) + 1, 1)  # the label locations
         width = 0.35  # the width of the bars
 
-        fig, (ax1, ax2) = plt.subplots(2)
+        fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=plt.figaspect(1/3))
         plt.rc('xtick', labelsize=16)
         plt.rc('ytick', labelsize=16)
         rects1 = ax1.bar(x, dist1_means, width, label=label1, color="red")
