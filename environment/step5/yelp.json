@@ -7,7 +7,7 @@
     "MAP",
     "MACE"
   ],
-  "recommender": ["BPR", "ALS", "DEEP_AE"],
+  "recommender": ["DEEP_AE"],
   "dataset": ["yelp"],
   "fold": [1, 2, 3],
   "trial": [1],
@@ -21,15 +21,7 @@
     "C@0.9", "C@1.0"
   ],
   "distribution": [
-    "CWS",
-    "WPS",
-    "GLEB",
-    "TWB",
-    "TSW",
-    "TWB_GLEB",
-    "TSW_GLEB",
-    "TSW_TWB_GLEB",
-    "TSW_TWB_GLEB_P"
+    "GLEB"
   ],
   "selector": ["SURROGATE"]
 }
