@@ -15,7 +15,6 @@ from scikit_pierre.metrics.evaluation import MeanAveragePrecision, MeanReciproca
 from searches.base_search import BaseSearch
 from searches.parameters import PierreParams
 from settings.labels import Label
-from algo.DeppAutoEncModel import DeppAutoEncModel
 
 
 class PierreGridSearch(BaseSearch):
@@ -170,16 +169,11 @@ class PierreGridSearch(BaseSearch):
         for train, test in zip(train_list, valid_list):
             recommender = None
             if algorithm == Label.DEEP_AE:
-                recommender = DeppAutoEncModel(
+                recommender = recommender_pierre.DeppAutoEncModel.DeppAutoEncModel(
                     factors=int(factors), epochs=int(epochs), dropout=float(dropout), lr=float(lr),
                     reg=float(reg),
                     batch=64
                 )
-                # recommender = recommender_pierre.DeppAutoEncModel.DeppAutoEncModel(
-                #     factors=int(factors), epochs=int(epochs), dropout=float(dropout), lr=float(lr),
-                #     reg=float(reg),
-                #     batch=64
-                # )
             else:
                 recommender = recommender_pierre.CDAEModel.CDAEModel(
                     factors=int(factors), epochs=int(epochs), dropout=float(dropout), lr=float(lr),
