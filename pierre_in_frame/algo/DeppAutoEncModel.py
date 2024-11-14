@@ -1,7 +1,7 @@
 import pandas as pd
-from tensorflow.keras.layers import Input, Dense, Dropout
-from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import Adam
+from keras.layers import Input, Dense, Dropout
+from keras.models import Model
+from keras.optimizers import Adam
 
 from .BaseModel import BaseModel
 
