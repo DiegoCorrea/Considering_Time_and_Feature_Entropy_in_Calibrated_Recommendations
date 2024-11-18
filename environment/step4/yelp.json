@@ -16,7 +16,9 @@
     "C@0.9", "C@1.0"
   ],
   "distribution": [
-    "GLEB"
+    "GLEB",
+    "WPS",
+    "CWS"
   ],
   "selector": ["SURROGATE"],
   "list_size": [10],
