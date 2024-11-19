@@ -19,15 +19,9 @@
     "C@0.9", "C@1.0"
   ],
   "distribution": [
-    "CWS",
-    "WPS",
     "GLEB",
-    "TWB",
-    "TSW",
-    "TWB_GLEB",
-    "TSW_GLEB",
-    "TSW_TWB_GLEB",
-    "TSW_TWB_GLEB_P"
+    "WPS",
+    "CWS"
   ],
   "selector": ["SURROGATE"]
 }
