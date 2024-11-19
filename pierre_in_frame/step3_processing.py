@@ -173,10 +173,10 @@ class PierreStep3(Step):
 
         for recommender, dataset, fold, trial in list(itertools.product(*eval_combination)):
             print(
-                "Recommender: " + recommender,
-                "Dataset: " + dataset,
-                "Fold: " + fold,
-                "Trial: " + trial
+                f"Recommender: {recommender},\n"
+                f"Dataset: {dataset},\n"
+                f"Fold: {fold},\n"
+                f"Trial: {trial},\n"
             )
             dataset_instance = RegisteredDataset.load_dataset(dataset)
             cand_lists_df = SaveAndLoad.load_candidate_items(
