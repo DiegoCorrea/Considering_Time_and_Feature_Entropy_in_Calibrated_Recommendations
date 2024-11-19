@@ -9,7 +9,12 @@ import random
 from joblib import Parallel, delayed
 from statistics import mean
 
-import recommender_pierre
+from recommender_pierre.autoencoders.CDAEModel import CDAEModel
+from recommender_pierre.autoencoders.DeppAutoEncModel import DeppAutoEncModel
+from recommender_pierre.autoencoders.EASEModel import EASEModel
+from recommender_pierre.baselines.Popularity import PopularityRecommender
+from recommender_pierre.baselines.Random import RandomRecommender
+
 from searches.parameters import ImplicitParams
 from scikit_pierre.metrics.evaluation import MeanAveragePrecision, MeanReciprocalRank
 from searches.base_search import BaseSearch
@@ -53,7 +58,7 @@ class PierreGridSearch(BaseSearch):
         mrr_value = []
 
         for train, test in zip(train_list, valid_list):
-            recommender = recommender_pierre.EASEModel.EASEModel(
+            recommender = EASEModel(
                 lambda_=lambda_, implicit=implicit
             )
 
@@ -83,34 +88,35 @@ class PierreGridSearch(BaseSearch):
         """
         Fits the pierre grid search algorithm to the training set and testing set.
         """
-        map_value = []
-        mrr_value = []
-
-        for train, test in zip(train_list, valid_list):
-            recommender = recommender_pierre.BPRKNN.BPRKNN(
-                factors=factors, regularization=regularization, learning_rate=learning_rate,
-                iterations=iterations, seed=random_state, list_size=list_size
-            )
-
-            mapv, mrrv = PierreGridSearch.__fit_and_metric(recommender, train, test)
-            map_value.append(mapv)
-            mrr_value.append(mrrv)
-
-        params = {
-            "map": mean(map_value),
-            "mrr": mean(mrr_value),
-            "params": {
-                "factors": factors,
-                "regularization": regularization,
-                "learning_rate": learning_rate,
-                "iterations": iterations,
-                "random_state": random_state
-            }
-        }
-        PierreGridSearch.defining_metric_and_save_during_run(
-            dataset_name=dataset_name, algorithm=algorithm, params=params
-        )
-        return params
+        return None
+        # map_value = []
+        # mrr_value = []
+        #
+        # for train, test in zip(train_list, valid_list):
+        #     recommender = recommender_pierre.BPRKNN.BPRKNN(
+        #         factors=factors, regularization=regularization, learning_rate=learning_rate,
+        #         iterations=iterations, seed=random_state, list_size=list_size
+        #     )
+        #
+        #     mapv, mrrv = PierreGridSearch.__fit_and_metric(recommender, train, test)
+        #     map_value.append(mapv)
+        #     mrr_value.append(mrrv)
+        #
+        # params = {
+        #     "map": mean(map_value),
+        #     "mrr": mean(mrr_value),
+        #     "params": {
+        #         "factors": factors,
+        #         "regularization": regularization,
+        #         "learning_rate": learning_rate,
+        #         "iterations": iterations,
+        #         "random_state": random_state
+        #     }
+        # }
+        # PierreGridSearch.defining_metric_and_save_during_run(
+        #     dataset_name=dataset_name, algorithm=algorithm, params=params
+        # )
+        # return params
 
     @staticmethod
     def fit_bpr_graph(
@@ -121,34 +127,35 @@ class PierreGridSearch(BaseSearch):
         """
         Fits the pierre grid search algorithm to the training set and testing set.
         """
-        map_value = []
-        mrr_value = []
-
-        for train, test in zip(train_list, valid_list):
-            recommender = recommender_pierre.BPRGRAPH.BPRGRAPH(
-                factors=factors, learning_rate=learning_rate,
-                iterations=iterations, list_size=list_size,
-                lambda_bias=lambda_bias, lambda_user=lambda_user, lambda_item=lambda_item
-            )
-            mapv, mrrv = PierreGridSearch.__fit_and_metric(recommender, train, test)
-            map_value.append(mapv)
-            mrr_value.append(mrrv)
-        params = {
-            "map": mean(map_value),
-            "mrr": mean(mrr_value),
-            "params": {
-                "factors": factors,
-                "lambda_user": lambda_user,
-                "lambda_item": lambda_item,
-                "lambda_bias": lambda_bias,
-                "learning_rate": learning_rate,
-                "iterations": iterations
-            }
-        }
-        PierreGridSearch.defining_metric_and_save_during_run(
-            dataset_name=dataset_name, algorithm=algorithm, params=params
-        )
-        return params
+        return None
+        # map_value = []
+        # mrr_value = []
+        #
+        # for train, test in zip(train_list, valid_list):
+        #     recommender = recommender_pierre.BPRGRAPH.BPRGRAPH(
+        #         factors=factors, learning_rate=learning_rate,
+        #         iterations=iterations, list_size=list_size,
+        #         lambda_bias=lambda_bias, lambda_user=lambda_user, lambda_item=lambda_item
+        #     )
+        #     mapv, mrrv = PierreGridSearch.__fit_and_metric(recommender, train, test)
+        #     map_value.append(mapv)
+        #     mrr_value.append(mrrv)
+        # params = {
+        #     "map": mean(map_value),
+        #     "mrr": mean(mrr_value),
+        #     "params": {
+        #         "factors": factors,
+        #         "lambda_user": lambda_user,
+        #         "lambda_item": lambda_item,
+        #         "lambda_bias": lambda_bias,
+        #         "learning_rate": learning_rate,
+        #         "iterations": iterations
+        #     }
+        # }
+        # PierreGridSearch.defining_metric_and_save_during_run(
+        #     dataset_name=dataset_name, algorithm=algorithm, params=params
+        # )
+        # return params
 
     def print_run(self):
         self.count += 1
@@ -169,13 +176,13 @@ class PierreGridSearch(BaseSearch):
         for train, test in zip(train_list, valid_list):
             recommender = None
             if algorithm == Label.DEEP_AE:
-                recommender = recommender_pierre.DeppAutoEncModel.DeppAutoEncModel(
+                recommender = DeppAutoEncModel(
                     factors=int(factors), epochs=int(epochs), dropout=float(dropout), lr=float(lr),
                     reg=float(reg),
                     batch=64
                 )
             else:
-                recommender = recommender_pierre.CDAEModel.CDAEModel(
+                recommender = CDAEModel(
                     factors=int(factors), epochs=int(epochs), dropout=float(dropout), lr=float(lr),
                     reg=float(reg),
                     batch=64
@@ -213,7 +220,7 @@ class PierreGridSearch(BaseSearch):
         mrr_value = []
 
         for train, test in zip(train_list, valid_list):
-            recommender = recommender_pierre.baselines.Popularity.PopularityRecommender(list_size=list_size)
+            recommender = PopularityRecommender(list_size=list_size)
             mapv, mrrv = PierreGridSearch.__fit_and_metric(recommender, train, test)
             map_value.append(mapv)
             mrr_value.append(mrrv)
@@ -236,7 +243,7 @@ class PierreGridSearch(BaseSearch):
         mrr_value = []
 
         for train, test in zip(train_list, valid_list):
-            recommender = recommender_pierre.baselines.Random.RandomRecommender(list_size=list_size)
+            recommender = RandomRecommender(list_size=list_size)
             mapv, mrrv = PierreGridSearch.__fit_and_metric(recommender, train, test)
             map_value.append(mapv)
             mrr_value.append(mrrv)
