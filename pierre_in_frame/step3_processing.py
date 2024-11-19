@@ -2,9 +2,12 @@ import itertools
 
 import logging
 
+import pandas as pd
 from joblib import Parallel, delayed
+from scikit_pierre.metrics.evaluation import MeanAveragePrecision
 
 from checkpoint_verification import CheckpointVerification
+from datasets.registred_datasets import RegisteredDataset
 from processing.implicit_recommender_algorithms import ImplicitRecommenderAlgorithm
 from processing.pierre_recommender_algorithms import PierreRecommenderAlgorithm
 from processing.surprise_recommender_algorithms import SurpriseRecommenderAlgorithm
@@ -162,6 +165,50 @@ class PierreStep3(Step):
                 metric=metric, list_size=list_size, based_on=based_on
             ) for recommender, dataset, fold, trial, checkpoint, metric, list_size, based_on in system_combination
         )
+
+        eval_combination = [
+            self.experimental_settings['recommender'], self.experimental_settings['dataset'],
+            self.experimental_settings['fold'], self.experimental_settings['trial']
+        ]
+
+        for recommender, dataset, fold, trial in list(itertools.product(*eval_combination)):
+            print(
+                "Recommender: " + recommender,
+                "Dataset: " + dataset,
+                "Fold: " + fold,
+                "Trial: " + trial
+            )
+            dataset_instance = RegisteredDataset.load_dataset(dataset)
+            rec_lists_df = SaveAndLoad.load_candidate_items(
+                dataset=dataset, algorithm=recommender,
+                fold=fold, trial=trial
+            )
+
+            test_set_df = dataset_instance.load_test_transactions(
+                fold=fold, trial=trial
+            )
+
+            map_instance = MeanAveragePrecision(
+                users_rec_list_df=rec_lists_df,
+                users_test_set_df=test_set_df
+            )
+
+            map_100_value = map_instance.compute()
+            print(f"MAP Value in candidate list is {map_100_value}.")
+
+            candidate_items_top_10 = pd.concat(
+                [
+                    df.sort_values(by="TRANSACTION_VALUE", ascending=False).head(self.experimental_settings['list_size'])
+                    for ix, df in rec_lists_df.groupby(by="USER_ID")
+                ]
+            )
+
+            map_instance = MeanAveragePrecision(
+                users_rec_list_df=candidate_items_top_10,
+                users_test_set_df=test_set_df
+            )
+            map_10_value = map_instance.compute()
+            print(f"MAP Value top-{self.experimental_settings['list_size']} is {map_10_value}.")
 
         # Finishing the Step
         logger.info(" ".join(['+' * 10, 'System shutdown', '+' * 10]))
