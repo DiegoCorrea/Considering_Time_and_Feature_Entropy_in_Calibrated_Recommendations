@@ -183,12 +183,10 @@ class PierreStep3(Step):
                 dataset=dataset, algorithm=recommender,
                 fold=fold, trial=trial
             )
-            print(cand_lists_df.head(10))
 
             test_set_df = dataset_instance.get_test_transactions(
                 fold=fold, trial=trial
             )
-            print(test_set_df.head(10))
 
             map_instance_cand = MeanAveragePrecision(
                 users_rec_list_df=cand_lists_df,
