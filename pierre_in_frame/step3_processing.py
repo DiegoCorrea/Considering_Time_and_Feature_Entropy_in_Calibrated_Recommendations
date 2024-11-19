@@ -185,7 +185,7 @@ class PierreStep3(Step):
             )
             print(cand_lists_df.head(10))
 
-            test_set_df = dataset_instance.load_test_transactions(
+            test_set_df = dataset_instance.get_test_transactions(
                 fold=fold, trial=trial
             )
             print(test_set_df.head(10))
