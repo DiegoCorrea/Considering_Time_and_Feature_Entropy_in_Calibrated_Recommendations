@@ -2,7 +2,7 @@
 
 ## This is the code for the paper "Considering Time and Feature Entropy in Calibrated Recommendations" authored by Diego Corrêa da Silva, Dietmar Jannach and Frederico Araújo Durão.   
 
-## You can download the dataset and results to reproduce the experiment and compare at: https://doi.org/10.5281/zenodo.12801920
+## You can download the dataset and results to reproduce the experiment and compare at: https://doi.org/10.5281/zenodo.14228378
 
 [Pre-Print](https://readthedocs.io/) | [Paper](https://doi.org/xx.xxx/xxxxx.xxxxxx)  
 
