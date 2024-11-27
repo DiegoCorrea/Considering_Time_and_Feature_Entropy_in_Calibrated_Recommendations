@@ -3,7 +3,7 @@
   "n_jobs": 63,
   "checkpoint": "NO",
   "dataset": ["yelp"],
-  "recommender": ["DEEP_AE"],
+  "recommender": ["DEEP_AE", "BPR", "ALS"],
   "fold": [1, 2, 3],
   "trial": [1],
   "tradeoff": ["LIN"],

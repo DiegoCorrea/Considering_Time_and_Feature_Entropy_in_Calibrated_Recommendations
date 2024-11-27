@@ -64,7 +64,7 @@ The pre-processing script provides three functionality to configure the experime
 2. Pre-Compute Distribution. This improves the execution time. **We strongly indicate running this optimization**  
    2.1. MovieLens 20M: `python3 step1_preprocessing.py from_file=YES file_name=ml-20m_distribution`  
    2.2. Food.com: `python3 step1_preprocessing.py from_file=YES file_name=food_distribution`  
-   2.3. Last.fm 2B: `python3 step1_preprocessing.py from_file=YES file_name=lfm-2b-subset_distribution` 
+   2.3. Last.fm 2B: `python3 step1_preprocessing.py from_file=YES file_name=lfm-2b-subset_distribution`  
    2.4. Yelp: `python3 step1_preprocessing.py from_file=YES file_name=yelp_distribution`  
 3. Pre-Compute One-Hot-Encoding. This improves the execution time. **We strongly indicate running this optimization**  
    3.1. MovieLens 20M: `python3 step1_preprocessing.py from_file=YES file_name=ml-20m_ohe`  
@@ -116,7 +116,10 @@ All candidate items set are saved inside `data/experiment/{dataset}/candidate_it
    1.2. DeepAE: `python3 step3_processing.py from_file=YES file_name=deep_ae_food`     
 3. Last.fm    
    1.1. BPR + ALS: `python3 step3_processing.py from_file=YES file_name=lfm-2b-subset`    
-   1.2. DeepAE: `python3 step3_processing.py from_file=YES file_name=deep_ae_lfm-2b-subset`  
+   1.2. DeepAE: `python3 step3_processing.py from_file=YES file_name=deep_ae_lfm-2b-subset`       
+4. Yelp    
+   1.1. BPR + ALS: `python3 step3_processing.py from_file=YES file_name=yelp`    
+   1.2. DeepAE: `python3 step3_processing.py from_file=YES file_name=deep_ae_yelp`  
 
 In the directory `shell`, there are examples of scripts to run step 3 for the three datasets cited above.
 You can run the command from the main project directory: `sh shell/step3.sh > ./logs/step3.log 2>&1 & disown`.
@@ -131,6 +134,7 @@ The recommendations produced by this step are saved in `data/experiment/<dataset
 1. MovieLens 20M: `python3 step4_postprocessing.py from_file=YES file_name=ml-20m`    
 2. Food.com Recipes: `python3 step4_postprocessing.py from_file=YES file_name=food`     
 3. Last.fm: `python3 step4_postprocessing.py from_file=YES file_name=lfm-2b-subset`  
+4. Yelp: `python3 step4_postprocessing.py from_file=YES file_name=yelp`  
 
 In the directory `shell`, there are examples of scripts to run the **step 4** for the three datasets cited above.
 You can run the command from the main project directory: `sh shell/step4.sh > ./logs/step4.log 2>&1 & disown`.
@@ -146,7 +150,8 @@ The system you want to evaluate is given the same parameters as in the post-proc
 #### Run Examples
 1. MovieLens 20M: `python3 step5_metrics.py from_file=YES file_name=ml-20m`    
 2. Food.com Recipes: `python3 step5_metrics.py from_file=YES file_name=food`     
-3. Last.fm: `python3 step5_metrics.py from_file=YES file_name=lfm-2b-subset`  
+3. Last.fm: `python3 step5_metrics.py from_file=YES file_name=lfm-2b-subset`   
+4. Yelp: `python3 step5_metrics.py from_file=YES file_name=yelp`  
 
 In the directory `shell`, there are examples of scripts to run **step 5** for the three datasets cited above.
 You can run the command from the main project directory: `sh shell/step5.sh > ./logs/step5.log 2>&1 & disown`.
@@ -162,6 +167,7 @@ The final file is saved inside: `results/decision/{dataset}/decision.csv`.
 1. MovieLens 20M: `python3 step6_protocol.py from_file=YES file_name=ml-20m`    
 2. Food.com Recipes: `python3 step6_protocol.py from_file=YES file_name=food`     
 3. Last.fm: `python3 step6_protocol.py from_file=YES file_name=lfm-2b-subset`  
+4. Yelp: `python3 step6_protocol.py from_file=YES file_name=yelp`  
 
 In the directory `shell`, there are examples of scripts to run the **step 6** for the three datasets cited above.
 You can run the command from the main project directory: `sh shell/step6.sh > ./logs/step6.log 2>&1 & disown`.
@@ -174,4 +180,5 @@ It is the last step in the framework. The result files are saved inside: `result
 #### Run Examples
 1. MovieLens 20M: `python3 step7_charts_tables.py from_file=YES file_name=ml-20m`    
 2. Food.com Recipes: `python3 step7_charts_tables.py from_file=YES file_name=food`     
-3. Last.fm: `python3 step7_charts_tables.py from_file=YES file_name=lfm-2b-subset`  
+3. Last.fm: `python3 step7_charts_tables.py from_file=YES file_name=lfm-2b-subset`
+4. Yelp: `python3 step7_charts_tables.py from_file=YES file_name=yelp`  

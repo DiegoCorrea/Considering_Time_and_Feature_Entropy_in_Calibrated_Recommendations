@@ -7,7 +7,7 @@
     "MAP",
     "MACE"
   ],
-  "recommender": ["DEEP_AE"],
+  "recommender": ["DEEP_AE", "BPR", "ALS"],
   "dataset": ["yelp"],
   "fold": [1, 2, 3],
   "trial": [1],
